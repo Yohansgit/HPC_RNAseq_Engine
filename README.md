@@ -1,1 +1,54 @@
+# RNA-seq Analysis Pipeline (Bash-Orchestrated HPC Version)
+
+A comprehensive, modular RNA-seq analysis pipeline designed for High-Performance Computing (HPC) environments. This pipeline automates the RNA-seq workflow from raw FASTQ files to differential expression analysis and visualization, ensuring reproducibility and scalability for large transcriptomic datasets.
+
+---
+
+## 📋 Table of Contents
+- [Project Objective](#project-objective)
+- [Stakeholders](#stakeholders)
+- [Pipeline Overview & Flow](#pipeline-overview--flow)
+- [Features](#features)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Pipeline Steps](#pipeline-steps)
+- [Input/Output](#inputoutput)
+- [Configuration](#configuration)
+- [Project Structure](#project-structure)
+- [Contributing](#contributing)
+- [License](#license)
+- [Citation](#citation)
+- [Contact](#contact)
+
+---
+
+## 🎯 Project Objective
+
+The goal of this pipeline is to provide a **reproducible, scalable, and modular workflow for RNA-seq analysis** in an HPC environment. It automates:
+
+- Quality control of sequencing reads  
+- Adapter trimming  
+- Alignment to reference genomes  
+- BAM post-processing (sorting, indexing)  
+- Gene quantification (count matrices)  
+- Differential expression analysis  
+- Visualization and reporting  
+
+---
+
+## 👥 Stakeholders
+
+- **Computational Biologists / Bioinformaticians:** Develop and run RNA-seq analyses  
+- **Lab Scientists / Wet-Lab Teams:** Provide sequencing datasets and interpret results  
+- **Data Scientists / Statisticians:** Perform downstream statistical analysis and visualization  
+- **Project Managers / Collaborators:** Monitor pipeline progress and results  
+- **IT / HPC Administrators:** Maintain HPC infrastructure, user access, and scheduling efficiency  
+
+---
+
+## 🔄 Pipeline Overview & Flow
+
+**Bash-orchestrated, HPC-ready, modular pipeline**. Each step is isolated in Conda environments, wrapped as HPC jobs, and orchestrated via a master runner script.
+
 
