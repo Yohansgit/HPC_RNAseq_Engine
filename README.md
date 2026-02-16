@@ -142,21 +142,22 @@ vim config/config.yaml  # Set paths, parameters, cluster options
 ---
 ## 📂 Project Structure
 
-rna_seq_pipeline/
-├── README.md
-├── environment/          # Conda YAML files
-├── scripts/
-│   ├── bash/             # HPC wrapper scripts
-│   ├── r/                # DESeq2 analysis scripts
-│   └── python/           # QC / preprocessing
-├── data/                 # Raw / small test datasets
-├── results/              # BAMs, count matrices, figures
-├── docs/                 # Metadata, reports
-├── config/               # config.yaml, cluster.yaml
-├── workflow/             # Optional workflow files
-├── logs/                 # HPC job logs
-└── run_pipeline.sh       # Master orchestrator
-
+```bash
+rna_seq_pipeline/    
+├── README.md    
+├── environment/          # Conda YAML files    
+├── scripts/    
+│   ├── bash/             # HPC wrapper scripts     
+│   ├── r/                # DESeq2 analysis scripts    
+│   └── python/           # QC / preprocessing    
+├── data/                 # Raw / small test datasets    
+├── results/              # BAMs, count matrices, figures    
+├── docs/                 # Metadata, reports    
+├── config/               # config.yaml, cluster.yaml    
+├── workflow/             # Optional workflow files    
+├── logs/                 # HPC job logs    
+└── run_pipeline.sh       # Master orchestrator    
+```    
 ---
 
 ## 🤝 Contributing
