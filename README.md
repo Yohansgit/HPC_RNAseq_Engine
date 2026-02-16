@@ -86,8 +86,6 @@ graph TD
 ```
 ---
 
----
-
 ## ✨ Features
 
 - Modular and reproducible design  
@@ -114,14 +112,13 @@ graph TD
 - Bash (v4+), Git, wget/curl  
 - Conda / Miniconda3  
 - Job scheduler: PBS/Torque, SLURM, or SGE  
-
----
+--- 
 
 ## 🔧 Installation
 
 1. **Clone repository** 
 
-```bash
+    ```bash
 git clone https://github.com/yourusername/rna-seq-pipeline-hpc.git
 cd rna-seq-pipeline-hpc
 
@@ -138,11 +135,10 @@ bash scripts/bash/download_reference.sh --genome GRCh38 --output-dir /path/to/re
 cp config/config.example.yaml config/config.yaml
 vim config/config.yaml  # Set paths, parameters, cluster options
 
-# 🚀 Usage
+## 🚀 Usage
 ./run_pipeline.sh --config config/config.yaml --samples samplesheet.csv
 
 
-Run full pipeline
 ---
 ## 📂 Project Structure
 
@@ -162,6 +158,7 @@ rna_seq_pipeline/
 └── run_pipeline.sh       # Master orchestrator
 
 ## 🤝 Contributing
+Contributions are welcome! Please submit pull requests and open issues. Follow coding standards and document changes.
 
 ## 📄 License
 
