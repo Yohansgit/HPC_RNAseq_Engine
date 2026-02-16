@@ -1,6 +1,30 @@
 # RNA-seq Analysis Pipeline (Bash-Orchestrated HPC Version)
 
-## Project Objective
+A comprehensive, modular RNA-seq analysis pipeline designed for High-Performance Computing (HPC) environments. This pipeline automates the entire RNA-seq workflow from raw FASTQ files to differential expression analysis and visualization, ensuring reproducibility and scalability for large transcriptomic datasets.
+
+---
+
+## 📋 Table of Contents
+- [Project Objective](#project-objective)
+- [Stakeholders](#stakeholders)
+- [Pipeline Overview & Flow](#pipeline-overview--flow)
+- [Features](#features)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Pipeline Steps](#pipeline-steps)
+- [Input/Output](#inputoutput)
+- [Configuration](#configuration)
+- [Project Structure](#project-structure)
+- [Contributing](#contributing)
+- [License](#license)
+- [Citation](#citation)
+- [Contact](#contact)
+
+---
+
+## 🎯 Project Objective
+
 The goal of this pipeline is to provide a **reproducible, scalable, and modular workflow for RNA-seq analysis** in a High-Performance Computing (HPC) environment. It automates:
 
 - Quality control of sequencing reads  
@@ -13,69 +37,92 @@ The goal of this pipeline is to provide a **reproducible, scalable, and modular 
 
 The pipeline ensures that large transcriptomic datasets are processed efficiently, reproducibly, and in a format suitable for collaborative research and downstream publication.
 
-## Stakeholders
+---
+
+## 👥 Stakeholders
+
 - **Computational Biologists / Bioinformaticians:** Develop and run RNA-seq analysis.  
 - **Lab Scientists / Wet-Lab Teams:** Provide sequencing datasets and interpret results.  
 - **Data Scientists / Statisticians:** Perform downstream statistical analysis and visualization.  
 - **Project Managers / Collaborators:** Monitor pipeline progress and results for decision-making.  
 - **IT / HPC Administrators:** Maintain HPC infrastructure, user access, and scheduling efficiency.  
 
-## Pipeline Overview & Flow
-This **Bash-orchestrated pipeline** is modular, HPC-ready, and reproducible. Each step is isolated in Conda environments, wrapped as HPC jobs, and orchestrated via a master runner script.
+---
 
-```text
-FASTQ (raw reads)
-      |
-      v
-[Quality Control] --> FastQC
-      |
-      v
-[Adapter Trimming] --> Trimmomatic / Cutadapt
-      |
-      v
-[Alignment] --> HISAT2
-      |            \
-      v             --> BAM (SAMtools)
-[Post-processing] --> Sort & Index BAM
-      |
-      v
-[Feature Counting] --> featureCounts (Count matrix)
-      |
-      v
-[Differential Expression] --> DESeq2 (R)
-      |
-      v
-[Visualization & Reporting] --> Heatmaps, Venn diagrams, Volcano plots
-rna_seq_pipeline/
-├── README.md
-├── environment/          # Conda YAML files / Dockerfile
-├── scripts/
-│   ├── bash/             # HPC wrapper scripts
-│   ├── r/                # Statistical analysis scripts (DESeq2)
-│   └── python/           # QC / preprocessing scripts
-├── data/                 # Raw / small test datasets
-├── results/              # Output BAMs, count matrices, figures
-├── docs/                 # Metadata, pipeline decisions, reports
-├── config/               # Sample info, reference paths, cluster config
-├── workflow/             # Optional workflow files
-├── logs/                 # HPC job logs
-└── run_pipeline.sh       # Main orchestrator script
-MIT License
+## 🔄 Pipeline Overview & Flow
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+This **Bash-orchestrated pipeline** is modular, HPC-ready, and reproducible. Each step is isolated in Conda environments, wrapped as HPC jobs, and orchestrated via a master runner script with automatic dependency checking and error handling.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+---
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+## ✨ Features
+
+- **Modular Design:** Each step runs independently with clear input/output interfaces
+- **HPC Optimized:** Job submission with dependency handling, resource allocation, and parallel processing
+- **Environment Isolation:** Conda environments for each tool to avoid dependency conflicts
+- **Comprehensive Logging:** Detailed logs for debugging and reproducibility
+- **Checkpoint/Restart:** Resume pipeline from any step
+- **Multi-sample Parallelization:** Process multiple samples simultaneously
+- **Configurable:** Easy parameter tuning via config files
+- **Multiple Aligner Support:** Compatible with HISAT2, STAR, or Salmon
+- **Automated Reporting:** Generates MultiQC reports and R Markdown summaries
+
+---
+
+## 📦 Prerequisites
+
+### Hardware Requirements
+- HPC cluster with job scheduling system (SLURM, PBS/Torque, or SGE)
+- Minimum 8GB RAM per sample (recommended: 16GB+)
+- Storage: 10x raw data size for intermediate files
+
+### Software Requirements
+- **Operating System:** Linux (CentOS 7+, Ubuntu 18.04+)
+- **Job Scheduler:** SLURM (preferred), PBS/Torque, or SGE
+- **Package Managers:** Conda/Miniconda3, module system (optional)
+- **Core Tools:** Bash (v4.0+), Git, wget/curl
+
+---
+
+## 🔧 Installation
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/yourusername/rna-seq-pipeline-hpc.git
+cd rna-seq-pipeline-hpc
+bash scripts/bash/setup_directories.sh
+# Create all required environments
+bash scripts/bash/setup_environments.sh
+
+# Or install individually:
+conda env create -f environment/rnaseq_qc.yaml
+conda env create -f environment/rnaseq_align.yaml
+conda env create -f environment/rnaseq_r.yaml
+# Example for human genome (GRCh38)
+bash scripts/bash/download_reference.sh \
+    --genome GRCh38 \
+    --output-dir /path/to/references
+cp config/config.example.yaml config/config.yaml
+vim config/config.yaml  # Set paths, parameters, and cluster options
+# Run full pipeline
+./run_pipeline.sh --config config/config.yaml --samples samplesheet.csv
+
+# Run from specific step
+./run_pipeline.sh --config config/config.yaml \
+                  --samples samplesheet.csv \
+                  --start-step alignment \
+                  --end-step quantification
+
+
+[Your Name]. (2024). RNA-seq Analysis Pipeline (Bash-Orchestrated HPC Version). 
+GitHub Repository. https://github.com/yourusername/rna-seq-pipeline-hpc
+
+Just copy all of this text and paste it directly into your `README.md` file. GitHub will automatically render it with proper formatting including:
+- Headers
+- Bold text
+- Code blocks
+- Tables
+- Lists
+- Emojis
+
+The formatting will appear correctly once you push it to GitHub.
