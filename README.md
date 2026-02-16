@@ -156,6 +156,7 @@ rna_seq_pipeline/
 ├── workflow/             # Optional workflow files
 ├── logs/                 # HPC job logs
 └── run_pipeline.sh       # Master orchestrator
+
 ---
 
 ## 🤝 Contributing
